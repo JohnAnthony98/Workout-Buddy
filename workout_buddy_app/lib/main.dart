@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:workout_buddy_app/screens/workout_main.dart';
 import 'package:workout_buddy_app/screens/home.dart';
+import 'package:workout_buddy_app/services/my_colors.dart';
 
 void main() {
   runApp(const MyApp());
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
       },
       title: 'Workout Buddy',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: getPrimarySwatch(),
       ),
       home: MyHomePage(key: key, title: "Workout Buddy"),
     );
