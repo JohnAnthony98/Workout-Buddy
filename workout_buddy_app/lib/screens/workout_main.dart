@@ -8,6 +8,16 @@ class WorkoutMain extends StatefulWidget {
 }
 
 class _WorkoutMain extends State<WorkoutMain> {
+  DateTime viewingWorkoutDay = DateTime.now();
+
+  String getDate() {
+    return viewingWorkoutDay.month.toString() +
+        "/" +
+        viewingWorkoutDay.day.toString() +
+        "/" +
+        viewingWorkoutDay.year.toString();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,8 +35,8 @@ class _WorkoutMain extends State<WorkoutMain> {
               padding: const EdgeInsets.all(3.0),
               decoration: BoxDecoration(
                   border: Border.all(color: Colors.blue, width: 5.0)),
-              child: const Text(
-                'Daily Workout Here',
+              child: Text(
+                getDate(),
                 style: TextStyle(color: Colors.white),
               ),
             ),
