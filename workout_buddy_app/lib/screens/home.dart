@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:workout_buddy_app/services/my_colors.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
@@ -12,7 +13,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 56, 53, 53),
+      backgroundColor: getBackgroundColor(),
       appBar: AppBar(
         title: Text(widget.title),
       ),
@@ -24,29 +25,33 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: () {
                 Navigator.pushNamed(context, "/workout_main");
               },
-              child: const Text("Workouts",
-                  style: TextStyle(fontSize: 26, color: Colors.white)),
+              style: ElevatedButton.styleFrom(primary: getButtonColor()),
+              child: Text("Workouts",
+                  style: TextStyle(fontSize: 26, color: getButtonTextColor())),
             ),
             ElevatedButton(
               onPressed: () {
                 Navigator.pushNamed(context, "/home");
               },
-              child: const Text("Chat",
-                  style: TextStyle(fontSize: 26, color: Colors.white)),
+              style: ElevatedButton.styleFrom(primary: getButtonColor()),
+              child: Text("Chat",
+                  style: TextStyle(fontSize: 26, color: getButtonTextColor())),
             ),
             ElevatedButton(
               onPressed: () {
                 Navigator.pushNamed(context, "/home");
               },
-              child: const Text("Share",
-                  style: TextStyle(fontSize: 26, color: Colors.white)),
+              style: ElevatedButton.styleFrom(primary: getButtonColor()),
+              child: Text("Share",
+                  style: TextStyle(fontSize: 26, color: getButtonTextColor())),
             ),
             ElevatedButton(
               onPressed: () {
                 Navigator.pushNamed(context, "/home");
               },
-              child: const Text("Friends",
-                  style: TextStyle(fontSize: 26, color: Colors.white)),
+              style: ElevatedButton.styleFrom(primary: getButtonColor()),
+              child: Text("Friends",
+                  style: TextStyle(fontSize: 26, color: getButtonTextColor())),
             ),
           ],
         ),
