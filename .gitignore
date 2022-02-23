@@ -20,3 +20,4 @@ doc/api/
 *.js.deps
 *.js.map
 workout_buddy_app/.vscode/launch.json
+workout_buddy_app/android/app/google-services.json
