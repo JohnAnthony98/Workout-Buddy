@@ -24,7 +24,29 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: () {
                 Navigator.pushNamed(context, "/workout_main");
               },
-              child: const Text("Workout", style: TextStyle(fontSize: 26)),
+              child: const Text("Workouts",
+                  style: TextStyle(fontSize: 26, color: Colors.white)),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, "/home");
+              },
+              child: const Text("Chat",
+                  style: TextStyle(fontSize: 26, color: Colors.white)),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, "/home");
+              },
+              child: const Text("Share",
+                  style: TextStyle(fontSize: 26, color: Colors.white)),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, "/home");
+              },
+              child: const Text("Friends",
+                  style: TextStyle(fontSize: 26, color: Colors.white)),
             ),
           ],
         ),
