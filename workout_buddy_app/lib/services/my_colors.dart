@@ -15,3 +15,11 @@ Color getButtonColor() {
 Color getButtonTextColor() {
   return const Color.fromARGB(255, 255, 255, 255);
 }
+
+Color getLoginBorderColor() {
+  return const Color.fromRGBO(255, 82, 82, 1);
+}
+
+Color getLoginTextColor() {
+  return Color.fromARGB(255, 255, 255, 255);
+}

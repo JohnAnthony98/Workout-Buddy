@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:workout_buddy_app/screens/workout_main.dart';
 import 'package:workout_buddy_app/screens/home.dart';
+import 'package:workout_buddy_app/screens/login.dart';
 import 'package:workout_buddy_app/services/my_colors.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -19,15 +20,15 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       initialRoute: '/',
       routes: <String, WidgetBuilder>{
-        '/home': (context) => MyHomePage(key: key, title: 'Workout Buddy'),
-        '/workout_main': (context) =>
-            WorkoutMain(key: key, title: "Workout Main Page"),
+        '/home': (context) => MyHomePage(key: key),
+        '/login': (context) => LogInScreen(key: key),
+        '/workout_main': (context) => WorkoutMain(key: key),
       },
       title: 'Workout Buddy',
       theme: ThemeData(
         primarySwatch: getPrimarySwatch(),
       ),
-      home: MyHomePage(key: key, title: "Workout Buddy"),
+      home: LogInScreen(key: key),
     );
   }
 }
