@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:workout_buddy_app/screens/workout_main.dart';
 import 'package:workout_buddy_app/screens/home.dart';
 import 'package:workout_buddy_app/services/my_colors.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
