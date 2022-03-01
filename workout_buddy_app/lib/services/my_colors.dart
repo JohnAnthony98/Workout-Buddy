@@ -21,5 +21,5 @@ Color getLoginBorderColor() {
 }
 
 Color getLoginTextColor() {
-  return Color.fromARGB(255, 255, 255, 255);
+  return const Color.fromARGB(255, 255, 255, 255);
 }
