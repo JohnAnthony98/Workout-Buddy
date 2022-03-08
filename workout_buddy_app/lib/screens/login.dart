@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:workout_buddy_app/screens/home.dart';
 import 'package:workout_buddy_app/services/my_colors.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class LogInScreen extends StatefulWidget {
   const LogInScreen({Key? key}) : super(key: key);
@@ -162,6 +163,11 @@ class _LogInScreenState extends State<LogInScreen> {
                                   await _auth.createUserWithEmailAndPassword(
                                       email: email, password: password);
                               if (newUser != null) {
+                                //give user a user role
+                                FirebaseFirestore.instance
+                                    .collection('users')
+                                    .doc(FirebaseAuth.instance.currentUser?.uid)
+                                    .set({"Role": "user"});
                                 setState(
                                   () {
                                     signLoading = true;
