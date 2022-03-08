@@ -90,16 +90,29 @@ class _WorkoutMain extends State<WorkoutMain> {
                 },
               ),
             ),
-            ElevatedButton(
-              onPressed: viewPreviousDay,
-              child: Text("Previous Workout",
-                  style: TextStyle(fontSize: 26, color: getButtonTextColor())),
-            ),
-            ElevatedButton(
-              onPressed: viewNextDay,
-              child: Text("Next Workout",
-                  style: TextStyle(fontSize: 26, color: getButtonTextColor())),
-            ),
+            Container(
+                child:
+                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              ElevatedButton(
+                onPressed: viewPreviousDay,
+                style: ElevatedButton.styleFrom(
+                    fixedSize: const Size(150, 50), primary: getButtonColor()),
+                child: Text("Previous Workout",
+                    style: TextStyle(fontSize: 22, color: getButtonTextColor()),
+                    textAlign: TextAlign.center),
+              ),
+              const SizedBox(
+                width: 10.0,
+              ),
+              ElevatedButton(
+                onPressed: viewNextDay,
+                style: ElevatedButton.styleFrom(
+                    fixedSize: const Size(150, 50), primary: getButtonColor()),
+                child: Text("Next Workout",
+                    style: TextStyle(fontSize: 22, color: getButtonTextColor()),
+                    textAlign: TextAlign.center),
+              ),
+            ])),
           ],
         ),
       ),
