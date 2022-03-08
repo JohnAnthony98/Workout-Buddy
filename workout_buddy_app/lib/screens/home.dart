@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:workout_buddy_app/services/my_colors.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
@@ -23,7 +25,17 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             ElevatedButton(
               onPressed: () {
-                Navigator.pushNamed(context, "/workout_main");
+                FirebaseFirestore.instance
+                    .collection('users')
+                    .doc(FirebaseAuth.instance.currentUser?.uid)
+                    .get()
+                    .then((value) {
+                  if (value.data()?["Role"] == "user") {
+                    Navigator.pushNamed(context, "/workout_main");
+                  } else {
+                    Navigator.pushNamed(context, "/workout_creation");
+                  }
+                });
               },
               style: ElevatedButton.styleFrom(primary: getButtonColor()),
               child: Text("Workouts",

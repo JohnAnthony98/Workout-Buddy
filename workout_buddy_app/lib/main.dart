@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:workout_buddy_app/screens/workout_main.dart';
+import 'package:workout_buddy_app/screens/workout_creation.dart';
 import 'package:workout_buddy_app/screens/home.dart';
 import 'package:workout_buddy_app/screens/login.dart';
 import 'package:workout_buddy_app/services/my_colors.dart';
@@ -23,6 +24,7 @@ class MyApp extends StatelessWidget {
         '/home': (context) => MyHomePage(key: key),
         '/login': (context) => LogInScreen(key: key),
         '/workout_main': (context) => WorkoutMain(key: key),
+        '/workout_creation': (context) => WorkoutCreation(key: key),
       },
       title: 'Workout Buddy',
       theme: ThemeData(
