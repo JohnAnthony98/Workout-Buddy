@@ -107,28 +107,25 @@ class _LogInScreenState extends State<LogInScreen> {
                               },
                             );
                             try {
-                              final newUser =
-                                  await _auth.signInWithEmailAndPassword(
-                                      email: email, password: password);
-                              if (newUser != null) {
-                                setState(() {
-                                  logLoading = true;
-                                });
-                                Navigator.of(context).push(
-                                  MaterialPageRoute<Null>(
-                                    builder: (BuildContext context) {
-                                      return const MyHomePage();
-                                    },
-                                  ),
-                                );
-                              }
+                              await _auth.signInWithEmailAndPassword(
+                                  email: email, password: password);
+                              setState(() {
+                                logLoading = true;
+                              });
+                              Navigator.of(context).push(
+                                MaterialPageRoute<void>(
+                                  builder: (BuildContext context) {
+                                    return const MyHomePage();
+                                  },
+                                ),
+                              );
                             } catch (e) {
                               setState(
                                 () {
                                   logLoading = true;
                                 },
                               );
-                              print(e);
+                              //print(e);
                             }
                           },
                           style: ElevatedButton.styleFrom(
@@ -159,35 +156,32 @@ class _LogInScreenState extends State<LogInScreen> {
                               signLoading = false;
                             });
                             try {
-                              final newUser =
-                                  await _auth.createUserWithEmailAndPassword(
-                                      email: email, password: password);
-                              if (newUser != null) {
-                                //give user a user role
-                                FirebaseFirestore.instance
-                                    .collection('users')
-                                    .doc(FirebaseAuth.instance.currentUser?.uid)
-                                    .set({"Role": "user"});
-                                setState(
-                                  () {
-                                    signLoading = true;
+                              await _auth.createUserWithEmailAndPassword(
+                                  email: email, password: password);
+                              //give user a user role
+                              FirebaseFirestore.instance
+                                  .collection('users')
+                                  .doc(FirebaseAuth.instance.currentUser?.uid)
+                                  .set({"Role": "user"});
+                              setState(
+                                () {
+                                  signLoading = true;
+                                },
+                              );
+                              Navigator.of(context).push(
+                                MaterialPageRoute<void>(
+                                  builder: (BuildContext context) {
+                                    return const MyHomePage();
                                   },
-                                );
-                                Navigator.of(context).push(
-                                  MaterialPageRoute<Null>(
-                                    builder: (BuildContext context) {
-                                      return const MyHomePage();
-                                    },
-                                  ),
-                                );
-                              }
+                                ),
+                              );
                             } catch (e) {
                               setState(
                                 () {
                                   signLoading = true;
                                 },
                               );
-                              print(e);
+                              //print(e);
                             }
                           },
                         )

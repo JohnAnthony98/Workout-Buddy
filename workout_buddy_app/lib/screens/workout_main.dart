@@ -1,12 +1,13 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:workout_buddy_app/services/my_colors.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class WorkoutMain extends StatefulWidget {
-  WorkoutMain({Key? key, title}) : super(key: key);
+  const WorkoutMain({Key? key, title}) : super(key: key);
 
   @override
   _WorkoutMain createState() => _WorkoutMain();
