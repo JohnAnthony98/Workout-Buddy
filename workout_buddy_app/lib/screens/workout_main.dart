@@ -1,5 +1,4 @@
 // ignore_for_file: non_constant_identifier_names
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:workout_buddy_app/services/my_colors.dart';
@@ -46,6 +45,11 @@ class _WorkoutMain extends State<WorkoutMain> {
     });
   }
 
+  String parseWorkout(String workout) {
+    List<String> splitted = workout.split(":");
+    return "The Workout is " + splitted[0] + " and the reps are " + splitted[1];
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -76,8 +80,12 @@ class _WorkoutMain extends State<WorkoutMain> {
                     );
                   } else {
                     if (snapshot.data?.size != 0 && !snapshot.hasError) {
-                      return Text(
-                          "${getDate()}\n${snapshot.data?.docs.first['Workout']}",
+                      String workout = "";
+                      var exercises = snapshot.data?.docs.first['Set1'];
+                      for (int x = 1; x < exercises.length; x++) {
+                        workout = workout + parseWorkout(exercises[x]) + "\n";
+                      }
+                      return Text("${getDate()}\n" + workout,
                           style: TextStyle(
                               fontSize: 16, color: getButtonTextColor()));
                     } else {
@@ -90,9 +98,7 @@ class _WorkoutMain extends State<WorkoutMain> {
                 },
               ),
             ),
-            Container(
-                child:
-                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
               ElevatedButton(
                 onPressed: viewPreviousDay,
                 style: ElevatedButton.styleFrom(
@@ -112,7 +118,7 @@ class _WorkoutMain extends State<WorkoutMain> {
                     style: TextStyle(fontSize: 22, color: getButtonTextColor()),
                     textAlign: TextAlign.center),
               ),
-            ])),
+            ]),
           ],
         ),
       ),

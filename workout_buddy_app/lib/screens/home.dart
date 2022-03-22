@@ -33,7 +33,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   if (value.data()?["Role"] == "user") {
                     Navigator.pushNamed(context, "/workout_main");
                   } else {
-                    Navigator.pushNamed(context, "/workout_creation");
+                    Navigator.pushNamed(context, "/workout_creation_selection");
                   }
                 });
               },

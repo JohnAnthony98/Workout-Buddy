@@ -3,8 +3,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:workout_buddy_app/services/my_colors.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class WorkoutCreation extends StatefulWidget {
   const WorkoutCreation({Key? key, title}) : super(key: key);
@@ -17,14 +15,8 @@ class _WorkoutCreation extends State<WorkoutCreation> {
   DateTime viewingWorkoutDay = DateTime.now();
   final User? user = FirebaseAuth.instance.currentUser;
 
-  Future<QuerySnapshot> getWorkout(String date, String? user_id) {
-    var returned_workout = FirebaseFirestore.instance
-        .collection('User_Workouts')
-        .where("UserID", isEqualTo: user_id)
-        .where("Date", isEqualTo: date)
-        .get();
-    return returned_workout;
-  }
+  late String exercise;
+  late String reps;
 
   String getDate() {
     return viewingWorkoutDay.month.toString() +
@@ -46,6 +38,8 @@ class _WorkoutCreation extends State<WorkoutCreation> {
     });
   }
 
+  void submitWorkout() {}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,61 +52,75 @@ class _WorkoutCreation extends State<WorkoutCreation> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Container(
-              margin: const EdgeInsets.all(15.0),
-              padding: const EdgeInsets.all(3.0),
-              decoration: BoxDecoration(
-                  border: Border.all(color: getButtonColor(), width: 5.0)),
-              child: FutureBuilder(
-                future: getWorkout(getDate(), user?.uid),
-                builder: (BuildContext context,
-                    AsyncSnapshot<QuerySnapshot> snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(
-                      child: SpinKitWave(
-                        color: getButtonTextColor(),
-                        size: 50.0,
+            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              SizedBox(
+                  height: 30,
+                  width: 300,
+                  child: TextField(
+                    keyboardType: TextInputType.text,
+                    decoration: InputDecoration(
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: getLoginBorderColor()),
                       ),
-                    );
-                  } else {
-                    if (snapshot.data?.size != 0 && !snapshot.hasError) {
-                      return Text(
-                          "${getDate()}\n${snapshot.data?.docs.first['Workout']}",
-                          style: TextStyle(
-                              fontSize: 16, color: getButtonTextColor()));
-                    } else {
-                      return Text(
-                          "${getDate()}\nThere is no workout for Today!",
-                          style: TextStyle(
-                              fontSize: 16, color: getButtonTextColor()));
-                    }
-                  }
-                },
-              ),
-            ),
-            Container(
-                child:
-                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-              ElevatedButton(
-                onPressed: viewPreviousDay,
-                style: ElevatedButton.styleFrom(
-                    fixedSize: const Size(150, 50), primary: getButtonColor()),
-                child: Text("Previous Workout",
-                    style: TextStyle(fontSize: 22, color: getButtonTextColor()),
-                    textAlign: TextAlign.center),
-              ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: getLoginBorderColor()),
+                      ),
+                      labelText: "Workout",
+                      labelStyle: TextStyle(
+                        color: getLoginTextColor(),
+                      ),
+                    ),
+                    onChanged: (value) {
+                      exercise = value;
+                    },
+                  )),
               const SizedBox(
-                width: 10.0,
+                width: 20,
               ),
-              ElevatedButton(
-                onPressed: viewNextDay,
-                style: ElevatedButton.styleFrom(
-                    fixedSize: const Size(150, 50), primary: getButtonColor()),
-                child: Text("Next Workout",
-                    style: TextStyle(fontSize: 22, color: getButtonTextColor()),
-                    textAlign: TextAlign.center),
-              ),
-            ])),
+              SizedBox(
+                  height: 30,
+                  width: 75,
+                  child: TextField(
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: getLoginBorderColor()),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: getLoginBorderColor()),
+                      ),
+                      labelText: "Reps",
+                      labelStyle: TextStyle(
+                        color: getLoginTextColor(),
+                      ),
+                    ),
+                    onChanged: (value) {
+                      reps = value;
+                    },
+                  )),
+            ]),
+            const SizedBox(
+              height: 30,
+            ),
+            ElevatedButton(
+              onPressed: submitWorkout,
+              style: ElevatedButton.styleFrom(
+                  fixedSize: const Size(150, 50), primary: getButtonColor()),
+              child: Text("Add Set to Workout",
+                  style: TextStyle(fontSize: 22, color: getButtonTextColor()),
+                  textAlign: TextAlign.center),
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+            ElevatedButton(
+              onPressed: submitWorkout,
+              style: ElevatedButton.styleFrom(
+                  fixedSize: const Size(150, 50), primary: getButtonColor()),
+              child: Text("Finish Workout",
+                  style: TextStyle(fontSize: 22, color: getButtonTextColor()),
+                  textAlign: TextAlign.center),
+            ),
           ],
         ),
       ),
