@@ -2,6 +2,7 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:workout_buddy_app/screens/workout_creation.dart';
 import 'package:workout_buddy_app/services/my_colors.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -45,11 +46,6 @@ class _WorkoutCreationSelection extends State<WorkoutCreationSelection> {
     setState(() {
       viewingWorkoutDay = viewingWorkoutDay.add(const Duration(hours: 24));
     });
-  }
-
-  String parseWorkout(String workout) {
-    List<String> splitted = workout.split(":");
-    return "The Workout is " + splitted[0] + " and the reps are " + splitted[1];
   }
 
   @override
@@ -104,9 +100,14 @@ class _WorkoutCreationSelection extends State<WorkoutCreationSelection> {
                       }
                       bool is_valid = is_date_valid && is_user_valid;
                       if (is_valid) {
-                        Future.delayed(const Duration(milliseconds: 0)).then(
-                            (value) => Navigator.pushNamed(
-                                context, "/workout_creation"));
+                        Future.delayed(const Duration(milliseconds: 0))
+                            .then((value) => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => WorkoutCreation(
+                                      clientID: snapshot.data!.docs.first.id,
+                                      workoutDay: getDate()),
+                                )));
                         return Text("User Found!",
                             style: TextStyle(
                                 fontSize: 16, color: getButtonTextColor()));

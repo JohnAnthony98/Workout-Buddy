@@ -47,7 +47,7 @@ class _WorkoutMain extends State<WorkoutMain> {
 
   String parseWorkout(String workout) {
     List<String> splitted = workout.split(":");
-    return "The Workout is " + splitted[0] + " and the reps are " + splitted[1];
+    return splitted[0] + " x " + splitted[1];
   }
 
   @override
@@ -82,8 +82,9 @@ class _WorkoutMain extends State<WorkoutMain> {
                     if (snapshot.data?.size != 0 && !snapshot.hasError) {
                       String workout = "";
                       var exercises = snapshot.data?.docs.first['Set1'];
+                      workout += "Set 1 has ${exercises[0]} reps\n";
                       for (int x = 1; x < exercises.length; x++) {
-                        workout = workout + parseWorkout(exercises[x]) + "\n";
+                        workout += "\t\t" + parseWorkout(exercises[x]) + "\n";
                       }
                       return Text("${getDate()}\n" + workout,
                           style: TextStyle(

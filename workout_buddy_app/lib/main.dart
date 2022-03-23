@@ -25,7 +25,6 @@ class MyApp extends StatelessWidget {
         '/home': (context) => MyHomePage(key: key),
         '/login': (context) => LogInScreen(key: key),
         '/workout_main': (context) => WorkoutMain(key: key),
-        '/workout_creation': (context) => WorkoutCreation(key: key),
         '/workout_creation_selection': (context) =>
             WorkoutCreationSelection(key: key),
       },
