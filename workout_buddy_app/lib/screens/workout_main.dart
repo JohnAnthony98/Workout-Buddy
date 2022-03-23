@@ -81,10 +81,14 @@ class _WorkoutMain extends State<WorkoutMain> {
                   } else {
                     if (snapshot.data?.size != 0 && !snapshot.hasError) {
                       String workout = "";
-                      var exercises = snapshot.data?.docs.first['Set1'];
-                      workout += "Set 1 has ${exercises[0]} reps\n";
-                      for (int x = 1; x < exercises.length; x++) {
-                        workout += "\t\t" + parseWorkout(exercises[x]) + "\n";
+                      for (int i = 1;
+                          i <= snapshot.data?.docs.first['NumSets'];
+                          i++) {
+                        var exercises = snapshot.data?.docs.first['Set$i'];
+                        workout += "Set $i has ${exercises[0]} reps\n";
+                        for (int x = 1; x < exercises.length; x++) {
+                          workout += "\t\t" + parseWorkout(exercises[x]) + "\n";
+                        }
                       }
                       return Text("${getDate()}\n" + workout,
                           style: TextStyle(

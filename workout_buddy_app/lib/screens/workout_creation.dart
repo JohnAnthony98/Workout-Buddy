@@ -1,5 +1,8 @@
 // ignore_for_file: non_constant_identifier_names
 
+import 'dart:collection';
+import 'dart:ffi';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:workout_buddy_app/services/my_colors.dart';
@@ -64,12 +67,14 @@ class _WorkoutCreation extends State<WorkoutCreation> {
   }
 
   Future<void> submitWorkout() {
-    return FirebaseFirestore.instance.collection('User_Workouts').add({
-      'Date': getDate(),
-      'NumSets': num_sets,
-      'Set1': allSets[0],
-      'UserID': widget.clientID
-    });
+    Map<String, Object> data = HashMap();
+    data.putIfAbsent('Date', () => getDate());
+    data.putIfAbsent('NumSets', () => num_sets);
+    data.putIfAbsent('UserID', () => widget.clientID);
+    for (int i = 1; i <= num_sets; i++) {
+      data.putIfAbsent('Set$i', () => allSets[i - 1]);
+    }
+    return FirebaseFirestore.instance.collection('User_Workouts').add(data);
   }
 
   @override
