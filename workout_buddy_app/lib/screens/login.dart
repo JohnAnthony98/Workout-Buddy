@@ -37,7 +37,7 @@ class _LogInScreenState extends State<LogInScreen> {
                   'Log In',
                   style: TextStyle(
                     fontSize: 30.0,
-                    color: getPrimarySwatch(),
+                    color: getLoginBorderColor(),
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -129,7 +129,7 @@ class _LogInScreenState extends State<LogInScreen> {
                             }
                           },
                           style: ElevatedButton.styleFrom(
-                              primary: getButtonColor()),
+                              primary: getLoginBorderColor()),
                           child: Text('Log In',
                               style: TextStyle(color: getButtonTextColor())),
                         )
@@ -148,7 +148,7 @@ class _LogInScreenState extends State<LogInScreen> {
                   child: signLoading
                       ? ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                              primary: getButtonColor()),
+                              primary: getLoginBorderColor()),
                           child: Text('Sign Up',
                               style: TextStyle(color: getButtonTextColor())),
                           onPressed: () async {

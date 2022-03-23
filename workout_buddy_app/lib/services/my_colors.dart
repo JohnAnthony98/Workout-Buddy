@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
 MaterialColor getPrimarySwatch() {
-  return Colors.red;
+  return Colors.blue;
 }
 
 Color getBackgroundColor() {
-  return const Color.fromARGB(255, 56, 53, 53);
+  return const Color.fromARGB(255, 158, 148, 148);
 }
 
 Color getButtonColor() {
-  return const Color.fromRGBO(255, 82, 82, 1);
+  return const Color.fromARGB(255, 33, 150, 243);
 }
 
 Color getButtonTextColor() {
@@ -17,7 +17,7 @@ Color getButtonTextColor() {
 }
 
 Color getLoginBorderColor() {
-  return const Color.fromRGBO(255, 82, 82, 1);
+  return const Color.fromARGB(255, 33, 150, 243);
 }
 
 Color getLoginTextColor() {
