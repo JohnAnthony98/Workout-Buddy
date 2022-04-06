@@ -16,6 +16,7 @@ class FriendRequests extends StatefulWidget {
 class _FriendRequests extends State<FriendRequests> {
   final User? user = FirebaseAuth.instance.currentUser;
   String new_friend_name = "";
+  List my_incoming_requests = [];
 
   Future<DocumentSnapshot> getMyUserData() {
     return FirebaseFirestore.instance.collection("users").doc(user!.uid).get();
@@ -64,6 +65,10 @@ class _FriendRequests extends State<FriendRequests> {
     setState(() {});
   }
 
+  void acceptFriend(String username) {}
+
+  void rejectFriend(String username) {}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -105,7 +110,9 @@ class _FriendRequests extends State<FriendRequests> {
                   height: 30,
                   child: ElevatedButton(
                     onPressed: () {
-                      sendRequest();
+                      if (new_friend_name != "") {
+                        sendRequest();
+                      }
                     },
                     style: ElevatedButton.styleFrom(primary: getButtonColor()),
                     child: Text("add",
@@ -135,18 +142,39 @@ class _FriendRequests extends State<FriendRequests> {
                       ),
                     );
                   } else {
-                    String friendslist = "";
-                    var friends = snapshot.data!.get("IncomingFriends");
-                    for (String f in friends) {
-                      friendslist = friendslist + f + "\n";
-                    }
-                    return Text(friendslist);
+                    my_incoming_requests =
+                        snapshot.data!.get("IncomingFriends");
+                    return Column(
+                      children: my_incoming_requests.map((var data) {
+                        return Row(children: [
+                          Text(data.toString()),
+                          const SizedBox(
+                            width: 20.0,
+                          ),
+                          ElevatedButton(
+                            child: const Text("Accept"),
+                            onPressed: () {
+                              acceptFriend(data);
+                            },
+                          ),
+                          const SizedBox(
+                            width: 20.0,
+                          ),
+                          ElevatedButton(
+                            child: const Text("Remove"),
+                            onPressed: () {
+                              rejectFriend(data);
+                            },
+                          ),
+                        ]);
+                      }).toList(),
+                    );
                   }
                 },
               ),
             ),
             const SizedBox(
-              height: 20.0,
+              height: 10.0,
             ),
             const Text("Pending Friend Requests"),
             Container(
