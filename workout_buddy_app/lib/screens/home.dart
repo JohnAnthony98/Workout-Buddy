@@ -43,7 +43,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             ElevatedButton(
               onPressed: () {
-                Navigator.pushNamed(context, "/home");
+                Navigator.pushNamed(context, "/message_main");
               },
               style: ElevatedButton.styleFrom(primary: getButtonColor()),
               child: Text("Chat",
