@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:workout_buddy_app/screens/friends_list.dart';
+import 'package:workout_buddy_app/screens/friend_requests.dart';
 import 'package:workout_buddy_app/screens/workout_main.dart';
-import 'package:workout_buddy_app/screens/workout_creation.dart';
 import 'package:workout_buddy_app/screens/workout_creation_selection.dart';
 import 'package:workout_buddy_app/screens/home.dart';
 import 'package:workout_buddy_app/screens/login.dart';
@@ -27,6 +28,8 @@ class MyApp extends StatelessWidget {
         '/workout_main': (context) => WorkoutMain(key: key),
         '/workout_creation_selection': (context) =>
             WorkoutCreationSelection(key: key),
+        '/friends_list': (context) => FriendsList(key: key),
+        '/friend_requests': (context) => FriendRequests(key: key),
       },
       title: 'Workout Buddy',
       theme: ThemeData(
