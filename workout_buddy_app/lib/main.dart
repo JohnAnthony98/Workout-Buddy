@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
         '/workout_main': (context) => WorkoutMain(key: key),
         '/workout_creation_selection': (context) =>
             WorkoutCreationSelection(key: key),
-        '/message_main': (context) => MessageMain(key: key),
+        '/message_main': (context) => UsersPage(key: key),
         '/friends_list': (context) => FriendsList(key: key),
         '/friend_requests': (context) => FriendRequests(key: key),
       },
