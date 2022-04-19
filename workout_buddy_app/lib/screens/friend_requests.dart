@@ -19,12 +19,15 @@ class _FriendRequests extends State<FriendRequests> {
   List my_incoming_requests = [];
 
   Future<DocumentSnapshot> getMyUserData() {
-    return FirebaseFirestore.instance.collection("users").doc(user!.uid).get();
+    return FirebaseFirestore.instance
+        .collection("appusers")
+        .doc(user!.uid)
+        .get();
   }
 
   Future<QuerySnapshot> getUserData(String username) {
     return FirebaseFirestore.instance
-        .collection("users")
+        .collection("appusers")
         .where("Username", isEqualTo: username)
         .get();
   }
@@ -37,7 +40,7 @@ class _FriendRequests extends State<FriendRequests> {
     //Add yourself to new friend's incoming
     Future<QuerySnapshot<Map<String, dynamic>>> new_friend = FirebaseFirestore
         .instance
-        .collection("users")
+        .collection("appusers")
         .where("Username", isEqualTo: new_friend_name)
         .get();
     new_friend.then(
@@ -48,7 +51,7 @@ class _FriendRequests extends State<FriendRequests> {
     List pending_friends = myself.get("PendingFriends");
     pending_friends.add(new_friend_name);
     FirebaseFirestore.instance
-        .collection("users")
+        .collection("appusers")
         .doc(user!.uid)
         .update({"PendingFriends": pending_friends});
   }
@@ -58,7 +61,7 @@ class _FriendRequests extends State<FriendRequests> {
     List incoming_friends = new_friend.docs.first.get("PendingFriends");
     incoming_friends.add(myself.get("Username"));
     FirebaseFirestore.instance
-        .collection("users")
+        .collection("appusers")
         .doc(new_friend.docs.first.id)
         .update({"IncomingFriends": incoming_friends});
     //this should run after pending is updated, so set state to get new list
@@ -73,7 +76,7 @@ class _FriendRequests extends State<FriendRequests> {
     //Remove from friends pending and onto their friends
     Future<QuerySnapshot<Map<String, dynamic>>> new_friend = FirebaseFirestore
         .instance
-        .collection("users")
+        .collection("appusers")
         .where("Username", isEqualTo: username)
         .get();
     new_friend.then((value) =>
@@ -85,13 +88,13 @@ class _FriendRequests extends State<FriendRequests> {
     List friends = myself.get("Friends");
     friends.add(username);
     FirebaseFirestore.instance
-        .collection("users")
+        .collection("appusers")
         .doc(user!.uid)
         .update({"Friends": friends});
     List incoming_friends = myself.get("IncomingFriends");
     incoming_friends.remove(username);
     FirebaseFirestore.instance
-        .collection("users")
+        .collection("appusers")
         .doc(user!.uid)
         .update({"IncomingFriends": incoming_friends});
   }
@@ -103,7 +106,7 @@ class _FriendRequests extends State<FriendRequests> {
     List friendsfriends = new_friend.docs.first.get("Friends");
     friendsfriends.add(myself.get("Username"));
     FirebaseFirestore.instance
-        .collection("users")
+        .collection("appusers")
         .doc(new_friend.docs.first.id)
         .update(
             {"PendingFriends": incoming_friends, "Friends": friendsfriends});
@@ -114,12 +117,12 @@ class _FriendRequests extends State<FriendRequests> {
   void rejectFriend(String username) {
     //remove friend request from your incoming
     Future<DocumentSnapshot<Map<String, dynamic>>> my_user =
-        FirebaseFirestore.instance.collection("users").doc(user!.uid).get();
+        FirebaseFirestore.instance.collection("appusers").doc(user!.uid).get();
     my_user.then((value) => removeFromIncoming(value, username));
     //remove yourself from friend request's pending
     Future<QuerySnapshot<Map<String, dynamic>>> new_friend = FirebaseFirestore
         .instance
-        .collection("users")
+        .collection("appusers")
         .where("Username", isEqualTo: username)
         .get();
     new_friend.then(
@@ -131,7 +134,7 @@ class _FriendRequests extends State<FriendRequests> {
     List pending_friends = myself.get("IncomingFriends");
     pending_friends.remove(username);
     FirebaseFirestore.instance
-        .collection("users")
+        .collection("appusers")
         .doc(user!.uid)
         .update({"IncomingFriends": pending_friends});
   }
@@ -141,7 +144,7 @@ class _FriendRequests extends State<FriendRequests> {
     List incoming_friends = new_friend.docs.first.get("PendingFriends");
     incoming_friends.remove(myself.get("Username"));
     FirebaseFirestore.instance
-        .collection("users")
+        .collection("appusers")
         .doc(new_friend.docs.first.id)
         .update({"PendingFriends": incoming_friends});
     //this should run after pending is updated, so set state to get new list

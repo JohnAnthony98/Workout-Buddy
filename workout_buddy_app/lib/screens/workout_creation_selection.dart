@@ -23,7 +23,7 @@ class _WorkoutCreationSelection extends State<WorkoutCreationSelection> {
 
   Future<QuerySnapshot> getUser(String username) async {
     return await FirebaseFirestore.instance
-        .collection('users')
+        .collection('appusers')
         .where("Username", isEqualTo: username)
         .get();
   }

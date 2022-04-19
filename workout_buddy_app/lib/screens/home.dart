@@ -26,7 +26,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ElevatedButton(
               onPressed: () {
                 FirebaseFirestore.instance
-                    .collection('users')
+                    .collection('appusers')
                     .doc(FirebaseAuth.instance.currentUser?.uid)
                     .get()
                     .then((value) {
