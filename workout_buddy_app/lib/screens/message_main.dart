@@ -4,6 +4,7 @@ import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
 import 'chat.dart';
 import 'package:workout_buddy_app/services/my_colors.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class UsersPage extends StatelessWidget {
   const UsersPage({Key? key}) : super(key: key);
@@ -11,7 +12,6 @@ class UsersPage extends StatelessWidget {
   void _handlePressed(types.User otherUser, BuildContext context) async {
     final room = await FirebaseChatCore.instance.createRoom(otherUser);
 
-    Navigator.of(context).pop();
     await Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => ChatPage(
@@ -67,23 +67,27 @@ class UsersPage extends StatelessWidget {
             itemCount: snapshot.data!.length,
             itemBuilder: (context, index) {
               final user = snapshot.data![index];
-              return GestureDetector(
-                onTap: () {
-                  _handlePressed(user, context);
-                },
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 8,
+              if (user.toString() != FirebaseAuth.instance.currentUser?.uid) {
+                return GestureDetector(
+                  onTap: () {
+                    _handlePressed(user, context);
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 8,
+                    ),
+                    child: Row(
+                      children: [
+                        _buildAvatar(user),
+                        Text(user.firstName!),
+                      ],
+                    ),
                   ),
-                  child: Row(
-                    children: [
-                      _buildAvatar(user),
-                      Text(user.firstName!),
-                    ],
-                  ),
-                ),
-              );
+                );
+              } else {
+                return const SizedBox();
+              }
             },
           );
         },
