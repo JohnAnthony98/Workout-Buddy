@@ -26,7 +26,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ElevatedButton(
               onPressed: () {
                 FirebaseFirestore.instance
-                    .collection('users')
+                    .collection('appusers')
                     .doc(FirebaseAuth.instance.currentUser?.uid)
                     .get()
                     .then((value) {
@@ -43,7 +43,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             ElevatedButton(
               onPressed: () {
-                Navigator.pushNamed(context, "/home");
+                Navigator.pushNamed(context, "/message_main");
               },
               style: ElevatedButton.styleFrom(primary: getButtonColor()),
               child: Text("Chat",

@@ -15,7 +15,10 @@ class _FriendsList extends State<FriendsList> {
   final User? user = FirebaseAuth.instance.currentUser;
 
   Future<DocumentSnapshot> getUserData() {
-    return FirebaseFirestore.instance.collection("users").doc(user!.uid).get();
+    return FirebaseFirestore.instance
+        .collection("appusers")
+        .doc(user!.uid)
+        .get();
   }
 
   @override

@@ -160,7 +160,7 @@ class _LogInScreenState extends State<LogInScreen> {
                                   email: email, password: password);
                               //give user a user role
                               FirebaseFirestore.instance
-                                  .collection('users')
+                                  .collection('appusers')
                                   .doc(FirebaseAuth.instance.currentUser?.uid)
                                   .set({"Role": "user"});
                               setState(

@@ -1,5 +1,4 @@
 // ignore_for_file: non_constant_identifier_names
-
 import 'dart:collection';
 
 import 'package:firebase_auth/firebase_auth.dart';
