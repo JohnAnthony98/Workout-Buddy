@@ -3,8 +3,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
 import 'chat.dart';
-import 'package:workout_buddy_app/services/my_colors.dart';
+import 'package:workout_buddy_app/services/style.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class UsersPage extends StatelessWidget {
   const UsersPage({Key? key}) : super(key: key);
@@ -19,6 +22,13 @@ class UsersPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<DocumentSnapshot> getUser() {
+    return FirebaseFirestore.instance
+        .collection("appusers")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .get();
   }
 
   Widget _buildAvatar(types.User user) {
@@ -63,30 +73,48 @@ class UsersPage extends StatelessWidget {
             );
           }
 
-          return ListView.builder(
-            itemCount: snapshot.data!.length,
-            itemBuilder: (context, index) {
-              final user = snapshot.data![index];
-              if (user.toString() != FirebaseAuth.instance.currentUser?.uid) {
-                return GestureDetector(
-                  onTap: () {
-                    _handlePressed(user, context);
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 8,
-                    ),
-                    child: Row(
-                      children: [
-                        _buildAvatar(user),
-                        Text(user.firstName!),
-                      ],
-                    ),
+          return FutureBuilder(
+            future: getUser(),
+            builder: (BuildContext context,
+                AsyncSnapshot<DocumentSnapshot> usersnapshot) {
+              if (usersnapshot.connectionState == ConnectionState.waiting) {
+                return Center(
+                  child: SpinKitWave(
+                    color: getButtonTextColor(),
+                    size: 50.0,
                   ),
                 );
               } else {
-                return const SizedBox();
+                List friendslist = usersnapshot.data!.get("Friends");
+                return ListView.builder(
+                  itemCount: snapshot.data!.length,
+                  itemBuilder: (context, index) {
+                    final user = snapshot.data![index];
+                    if (user.toString() !=
+                            FirebaseAuth.instance.currentUser?.uid &&
+                        friendslist.contains(user.firstName)) {
+                      return GestureDetector(
+                        onTap: () {
+                          _handlePressed(user, context);
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 8,
+                          ),
+                          child: Row(
+                            children: [
+                              _buildAvatar(user),
+                              Text(user.firstName!),
+                            ],
+                          ),
+                        ),
+                      );
+                    } else {
+                      return const SizedBox();
+                    }
+                  },
+                );
               }
             },
           );

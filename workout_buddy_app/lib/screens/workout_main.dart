@@ -1,7 +1,9 @@
 // ignore_for_file: non_constant_identifier_names
+import 'dart:html';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:workout_buddy_app/services/my_colors.dart';
+import 'package:workout_buddy_app/services/style.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -63,6 +65,7 @@ class _WorkoutMain extends State<WorkoutMain> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Container(
+              width: MediaQuery.of(context).size.width,
               margin: const EdgeInsets.all(15.0),
               padding: const EdgeInsets.all(3.0),
               decoration: BoxDecoration(

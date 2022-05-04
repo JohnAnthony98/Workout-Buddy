@@ -1,10 +1,11 @@
 // ignore_for_file: non_constant_identifier_names
 
 import 'package:flutter/material.dart';
-import 'package:workout_buddy_app/services/my_colors.dart';
+import 'package:workout_buddy_app/services/style.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:workout_buddy_app/services/style.dart';
 
 class FriendRequests extends StatefulWidget {
   const FriendRequests({Key? key}) : super(key: key);
@@ -35,7 +36,7 @@ class _FriendRequests extends State<FriendRequests> {
   void sendRequest() async {
     //Add new friend to your pending
     Future<DocumentSnapshot<Map<String, dynamic>>> my_user =
-        FirebaseFirestore.instance.collection("users").doc(user!.uid).get();
+        FirebaseFirestore.instance.collection("appusers").doc(user!.uid).get();
     my_user.then((value) => addToPending(value));
     //Add yourself to new friend's incoming
     Future<QuerySnapshot<Map<String, dynamic>>> new_friend = FirebaseFirestore
@@ -71,7 +72,7 @@ class _FriendRequests extends State<FriendRequests> {
   void acceptFriend(String username) async {
     //take friend off incoming and onto friends list
     Future<DocumentSnapshot<Map<String, dynamic>>> my_user =
-        FirebaseFirestore.instance.collection("users").doc(user!.uid).get();
+        FirebaseFirestore.instance.collection("appusers").doc(user!.uid).get();
     my_user.then((value) => updateAddedFriendsList(value, username));
     //Remove from friends pending and onto their friends
     Future<QuerySnapshot<Map<String, dynamic>>> new_friend = FirebaseFirestore
@@ -165,6 +166,13 @@ class _FriendRequests extends State<FriendRequests> {
             const SizedBox(
               height: 20.0,
             ),
+            Text("Add New Friend",
+                style: TextStyle(
+                    color: getFriendsTextColor(),
+                    fontSize: getFriendsTitleTextSize())),
+            const SizedBox(
+              height: 20.0,
+            ),
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [
               SizedBox(
                   height: 30,
@@ -205,7 +213,10 @@ class _FriendRequests extends State<FriendRequests> {
             const SizedBox(
               height: 20.0,
             ),
-            const Text("Incoming Friend Requests"),
+            Text("Incoming Friend Requests",
+                style: TextStyle(
+                    color: getFriendsTextColor(),
+                    fontSize: getFriendsTitleTextSize())),
             Container(
               margin: const EdgeInsets.all(15.0),
               padding: const EdgeInsets.all(3.0),
@@ -229,7 +240,10 @@ class _FriendRequests extends State<FriendRequests> {
                     return Column(
                       children: my_incoming_requests.map((var data) {
                         return Row(children: [
-                          Text(data.toString()),
+                          Text(data.toString(),
+                              style: TextStyle(
+                                  color: getFriendsTextColor(),
+                                  fontSize: getFriendsTextSize())),
                           const SizedBox(
                             width: 20.0,
                           ),
@@ -258,7 +272,10 @@ class _FriendRequests extends State<FriendRequests> {
             const SizedBox(
               height: 10.0,
             ),
-            const Text("Pending Friend Requests"),
+            Text("Pending Friend Requests",
+                style: TextStyle(
+                    color: getFriendsTextColor(),
+                    fontSize: getFriendsTitleTextSize())),
             Container(
               margin: const EdgeInsets.all(15.0),
               padding: const EdgeInsets.all(3.0),
@@ -282,7 +299,12 @@ class _FriendRequests extends State<FriendRequests> {
                     for (String f in friends) {
                       friendslist = friendslist + f + "\n";
                     }
-                    return Text(friendslist);
+                    return Text(
+                      friendslist,
+                      style: TextStyle(
+                          color: getFriendsTextColor(),
+                          fontSize: getFriendsTextSize()),
+                    );
                   }
                 },
               ),

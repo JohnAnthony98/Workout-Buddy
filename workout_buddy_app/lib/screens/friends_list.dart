@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:workout_buddy_app/services/my_colors.dart';
+import 'package:workout_buddy_app/services/style.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -45,6 +45,13 @@ class _FriendsList extends State<FriendsList> {
                   style: TextStyle(fontSize: 15, color: getButtonTextColor()),
                   textAlign: TextAlign.center),
             ),
+            const SizedBox(
+              height: 20.0,
+            ),
+            Text("Friends List",
+                style: TextStyle(
+                    color: getFriendsTextColor(),
+                    fontSize: getFriendsTitleTextSize())),
             Container(
               margin: const EdgeInsets.all(15.0),
               padding: const EdgeInsets.all(3.0),
@@ -68,7 +75,10 @@ class _FriendsList extends State<FriendsList> {
                     for (String f in friends) {
                       friendslist = friendslist + f + "\n";
                     }
-                    return Text(friendslist);
+                    return Text(friendslist,
+                        style: TextStyle(
+                            color: getFriendsTextColor(),
+                            fontSize: getFriendsTextSize()));
                   }
                 },
               ),

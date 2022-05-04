@@ -3,7 +3,7 @@ import 'dart:collection';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:workout_buddy_app/services/my_colors.dart';
+import 'package:workout_buddy_app/services/style.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -72,6 +72,7 @@ class _WorkoutCreation extends State<WorkoutCreation> {
     for (int i = 1; i <= num_sets; i++) {
       data.putIfAbsent('Set$i', () => allSets[i - 1]);
     }
+    Navigator.pop(context);
     return FirebaseFirestore.instance.collection('User_Workouts').add(data);
   }
 

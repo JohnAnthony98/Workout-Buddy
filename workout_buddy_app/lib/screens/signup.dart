@@ -3,19 +3,23 @@ import 'package:flutter/material.dart';
 import 'package:workout_buddy_app/screens/home.dart';
 import 'package:workout_buddy_app/services/style.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
+import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
 
-class LogInScreen extends StatefulWidget {
-  const LogInScreen({Key? key}) : super(key: key);
+class SignUpScreen extends StatefulWidget {
+  const SignUpScreen({Key? key}) : super(key: key);
 
   @override
-  _LogInScreenState createState() => _LogInScreenState();
+  _SignUpScreen createState() => _SignUpScreen();
 }
 
-class _LogInScreenState extends State<LogInScreen> {
+class _SignUpScreen extends State<SignUpScreen> {
   final _auth = FirebaseAuth.instance;
   late String value;
   late String email;
+  late String username;
   late String password;
+  late String password2;
   late String e;
   bool logLoading = true;
   bool signLoading = true;
@@ -34,7 +38,7 @@ class _LogInScreenState extends State<LogInScreen> {
                   height: 50.0,
                 ),
                 Text(
-                  'Log In',
+                  'Sign Up',
                   style: TextStyle(
                     fontSize: 30.0,
                     color: getLoginBorderColor(),
@@ -58,13 +62,37 @@ class _LogInScreenState extends State<LogInScreen> {
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: getLoginBorderColor()),
                       ),
-                      labelText: "email",
+                      labelText: "Email",
                       labelStyle: TextStyle(
                         color: getLoginTextColor(),
                       ),
                     ),
                     onChanged: (value) {
                       email = value;
+                    },
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.symmetric(
+                    vertical: 10.0,
+                    horizontal: 25.0,
+                  ),
+                  child: TextField(
+                    obscureText: false,
+                    decoration: InputDecoration(
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: getLoginBorderColor()),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: getLoginBorderColor()),
+                      ),
+                      labelText: "Username",
+                      labelStyle: TextStyle(
+                        color: getLoginTextColor(),
+                      ),
+                    ),
+                    onChanged: (value) {
+                      username = value;
                     },
                   ),
                 ),
@@ -82,7 +110,7 @@ class _LogInScreenState extends State<LogInScreen> {
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: getLoginBorderColor()),
                       ),
-                      labelText: "password",
+                      labelText: "Password",
                       labelStyle: TextStyle(
                         color: getLoginTextColor(),
                       ),
@@ -92,55 +120,32 @@ class _LogInScreenState extends State<LogInScreen> {
                     },
                   ),
                 ),
-                const SizedBox(
-                  height: 50.0,
-                ),
-                ButtonTheme(
-                  minWidth: 345.0,
-                  height: 50.0,
-                  child: logLoading
-                      ? ElevatedButton(
-                          onPressed: () async {
-                            setState(
-                              () {
-                                logLoading = false;
-                              },
-                            );
-                            try {
-                              await _auth.signInWithEmailAndPassword(
-                                  email: email, password: password);
-                              setState(() {
-                                logLoading = true;
-                              });
-                              Navigator.of(context).push(
-                                MaterialPageRoute<void>(
-                                  builder: (BuildContext context) {
-                                    return const MyHomePage();
-                                  },
-                                ),
-                              );
-                            } catch (e) {
-                              setState(
-                                () {
-                                  logLoading = true;
-                                },
-                              );
-                              //print(e);
-                            }
-                          },
-                          style: ElevatedButton.styleFrom(
-                              primary: getLoginBorderColor()),
-                          child: Text('Log In',
-                              style: TextStyle(color: getButtonTextColor())),
-                        )
-                      : Center(
-                          child: CircularProgressIndicator(
-                            backgroundColor: getButtonColor(),
-                          ),
-                        ),
+                Container(
+                  margin: const EdgeInsets.symmetric(
+                    vertical: 10.0,
+                    horizontal: 25.0,
+                  ),
+                  child: TextField(
+                    obscureText: true,
+                    decoration: InputDecoration(
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: getLoginBorderColor()),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: getLoginBorderColor()),
+                      ),
+                      labelText: "Re-Enter Password",
+                      labelStyle: TextStyle(
+                        color: getLoginTextColor(),
+                      ),
+                    ),
+                    onChanged: (value) {
+                      password2 = value;
+                    },
+                  ),
                 ),
                 const SizedBox(
-                  height: 25.0,
+                  height: 50.0,
                 ),
                 ButtonTheme(
                   minWidth: 345.0,
@@ -152,8 +157,53 @@ class _LogInScreenState extends State<LogInScreen> {
                           child: Text('Sign Up',
                               style: TextStyle(color: getButtonTextColor())),
                           onPressed: () async {
-                            //go to sign up page
-                            Navigator.pushNamed(context, "/signup");
+                            setState(() {
+                              signLoading = false;
+                            });
+                            try {
+                              if (password != password2) {
+                                throw "password doesnt match";
+                              }
+                              await _auth.createUserWithEmailAndPassword(
+                                  email: email, password: password);
+                              //give user a user role
+                              FirebaseFirestore.instance
+                                  .collection('appusers')
+                                  .doc(FirebaseAuth.instance.currentUser!.uid)
+                                  .set({
+                                "Role": "user",
+                                "Username": username,
+                                "Friends": [],
+                                "IncomingFriends": [],
+                                "PendingFriends": []
+                              });
+                              await FirebaseChatCore.instance
+                                  .createUserInFirestore(
+                                types.User(
+                                  firstName: username,
+                                  id: FirebaseAuth.instance.currentUser!.uid,
+                                ),
+                              );
+                              setState(
+                                () {
+                                  signLoading = true;
+                                },
+                              );
+                              Navigator.of(context).push(
+                                MaterialPageRoute<void>(
+                                  builder: (BuildContext context) {
+                                    return const MyHomePage();
+                                  },
+                                ),
+                              );
+                            } catch (e) {
+                              setState(
+                                () {
+                                  signLoading = true;
+                                },
+                              );
+                              //print(e);
+                            }
                           },
                         )
                       : Center(

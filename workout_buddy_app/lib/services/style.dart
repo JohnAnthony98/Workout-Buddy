@@ -23,3 +23,15 @@ Color getLoginBorderColor() {
 Color getLoginTextColor() {
   return const Color.fromARGB(255, 255, 255, 255);
 }
+
+Color getFriendsTextColor() {
+  return const Color.fromARGB(255, 255, 255, 255);
+}
+
+double getFriendsTitleTextSize() {
+  return 26.0;
+}
+
+double getFriendsTextSize() {
+  return 16.0;
+}
