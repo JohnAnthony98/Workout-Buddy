@@ -49,14 +49,14 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Text("Chat",
                   style: TextStyle(fontSize: 26, color: getButtonTextColor())),
             ),
-            ElevatedButton(
+            /*ElevatedButton(
               onPressed: () {
                 Navigator.pushNamed(context, "/home");
               },
               style: ElevatedButton.styleFrom(primary: getButtonColor()),
               child: Text("Share",
                   style: TextStyle(fontSize: 26, color: getButtonTextColor())),
-            ),
+            ),*/
             ElevatedButton(
               onPressed: () {
                 Navigator.pushNamed(context, "/friends_list");

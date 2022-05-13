@@ -1,5 +1,4 @@
 // ignore_for_file: non_constant_identifier_names
-import 'dart:html';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -66,6 +65,7 @@ class _WorkoutMain extends State<WorkoutMain> {
           children: <Widget>[
             Container(
               width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height * (5 / 8),
               margin: const EdgeInsets.all(15.0),
               padding: const EdgeInsets.all(3.0),
               decoration: BoxDecoration(
@@ -92,10 +92,12 @@ class _WorkoutMain extends State<WorkoutMain> {
                         for (int x = 1; x < exercises.length; x++) {
                           workout += "\t\t" + parseWorkout(exercises[x]) + "\n";
                         }
+                        workout = workout + "\n";
                       }
-                      return Text("${getDate()}\n" + workout,
-                          style: TextStyle(
-                              fontSize: 16, color: getButtonTextColor()));
+                      return Container(
+                          child: Text("${getDate()}\n\n" + workout,
+                              style: TextStyle(
+                                  fontSize: 16, color: getButtonTextColor())));
                     } else {
                       return Text(
                           "${getDate()}\nThere is no workout for Today!",

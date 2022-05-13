@@ -8,9 +8,11 @@ class ChatPage extends StatefulWidget {
   const ChatPage({
     Key? key,
     required this.room,
+    required this.otheruser,
   }) : super(key: key);
 
   final types.Room room;
+  final types.User otheruser;
 
   @override
   _ChatPageState createState() => _ChatPageState();
@@ -29,7 +31,7 @@ class _ChatPageState extends State<ChatPage> {
     return Scaffold(
       appBar: AppBar(
         systemOverlayStyle: SystemUiOverlayStyle.light,
-        title: const Text('Chat'),
+        title: Text(widget.otheruser.firstName!),
       ),
       body: StreamBuilder<types.Room>(
         initialData: widget.room,

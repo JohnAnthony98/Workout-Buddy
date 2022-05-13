@@ -17,9 +17,7 @@ class UsersPage extends StatelessWidget {
 
     await Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => ChatPage(
-          room: room,
-        ),
+        builder: (context) => ChatPage(room: room, otheruser: otherUser),
       ),
     );
   }
@@ -86,12 +84,14 @@ class UsersPage extends StatelessWidget {
                 );
               } else {
                 List friendslist = usersnapshot.data!.get("Friends");
+                if (friendslist.isEmpty) {
+                  return const Text("No Friends");
+                }
                 return ListView.builder(
                   itemCount: snapshot.data!.length,
                   itemBuilder: (context, index) {
                     final user = snapshot.data![index];
-                    if (user.toString() !=
-                            FirebaseAuth.instance.currentUser?.uid &&
+                    if (user.id != FirebaseAuth.instance.currentUser?.uid &&
                         friendslist.contains(user.firstName)) {
                       return GestureDetector(
                         onTap: () {
